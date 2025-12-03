@@ -1,0 +1,75 @@
+#define _USE_MATH_DEFINES 
+#include <iostream>
+#include <cmath>     
+#include <format>    
+#include <stdexcept> 
+
+using namespace std;
+
+double f(double x)
+{
+    return sin(6.0 / 49.0) + 25.0 * M_PI + 65.0 * M_E
+        * (14.0 / ((x - 10.0) * (x + 4.0)))
+        - 9.0 * (M_PI / 2.0 - atan(x + 7.0)) - log(x + 6.0) / log(11.0);
+}
+
+bool domain(double x)
+{
+    // This function verifies whether x belongs to the domain.
+    return (x > -6.0 && x != -4.0 && x != 10.0);
+}
+
+double input()
+{
+    double x;
+    cout << "Enter a real number x from its domain (x>-6 and x!=-4 and x!=10)" << endl;
+    cin >> x;
+    cout << endl;
+    if (cin.fail())
+    {
+        cin.clear();
+        throw invalid_argument("wrong input");
+    }
+    return x;
+}
+
+void info()
+{
+    cout << "The author of this code is Anna Kasianchuk, K-15" << endl;
+    cout << "This program calculates the expression by given x. Variant 84." << endl;
+}
+
+int main()
+{
+    info();
+    try
+    {
+        double x = input();
+        bool domain_of_x = domain(x);
+        cout << "***** do calculations ...";
+        double result = f(x);
+        cout << "done" << endl;
+        cout << format("for x = {:.7f}", x) << endl;
+        if (!domain_of_x) {
+            cout << "result = undefined" << endl;
+        }
+       else
+        {
+            cout << format("result = {:.8f}", result) << endl;
+        }
+    }
+    catch (logic_error& e)
+    {
+        cout << e.what() << endl;
+    }
+    catch (exception& e)
+    {
+        cout << "An unexpected error occurred: " << e.what() << endl;
+    }
+    catch (...)
+    {
+        cout << "Something went wrong...";
+    }
+
+    return 0;
+}
